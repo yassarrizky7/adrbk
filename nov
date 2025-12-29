@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Digital Marketing RBK - November 2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Reset & Base Styles */
+        body { 
+            font-family: 'Nunito', sans-serif; 
+            background-color: #F1F5F9; 
+            color: #334155; 
+            margin: 0; 
+            padding: 0;
+        }
+        
+        button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            margin: 0;
+            font-family: inherit;
+            color: inherit;
+        }
+
+        .chart-container { position: relative; width: 100%; height: 350px; }
+        
+        /* Brand Colors */
+        .bg-meta-primary { background-color: #004AAD !important; }
+        .text-meta-primary { color: #004AAD !important; }
+        
+        .bg-shopee-primary { background-color: #EE4D2D !important; }
+        .text-shopee-primary { color: #EE4D2D !important; }
+        
+        /* Navigation Tabs Container */
+        .nav-tab-container {
+            display: inline-flex;
+            gap: 1rem;
+            border-bottom: 2px solid #E2E8F0;
+            width: 100%;
+            margin-bottom: 2rem;
+            overflow-x: auto; 
+            padding-bottom: 8px;
+            scrollbar-width: none; 
+            -ms-overflow-style: none;
+        }
+
+        .nav-tab-container::-webkit-scrollbar { display: none; }
+
+        /* Tab Buttons */
+        button.nav-tab-btn {
+            padding: 0.5rem 0.75rem;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #94A3B8;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: -10px;
+            background-color: transparent !important;
+            text-decoration: none !important;
+            white-space: nowrap;
+            border-radius: 8px 8px 0 0;
+        }
+
+        button.nav-tab-btn:hover { 
+            color: #475569; 
+            background-color: rgba(255,255,255,0.5) !important;
+        }
+        
+        button.nav-tab-btn:focus { outline: none; }
+
+        /* Active States */
+        button.nav-tab-btn.nav-tab-active-general {
+            color: #0F172A !important;
+            border-bottom-color: #0F172A !important;
+        }
+        button.nav-tab-btn.nav-tab-active-meta {
+            color: #004AAD !important;
+            border-bottom-color: #004AAD !important;
+        }
+        button.nav-tab-btn.nav-tab-active-shopee {
+            color: #EE4D2D !important;
+            border-bottom-color: #EE4D2D !important;
+        }
+
+        /* --- ICON BOX (Proportional & Circular) --- */
+        .nav-tab-btn .icon-box {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            flex-shrink: 0;
+        }
+
+        .nav-tab-btn svg, 
+        .nav-tab-btn img { 
+            width: 1.1rem; 
+            height: 1.1rem; 
+            object-fit: contain;
+        }
+
+        /* Icon Colors */
+        button.nav-tab-btn .icon-box.general-icon { background-color: #FFFFFF; color: #64748B; border: 1px solid #E2E8F0; }
+        button.nav-tab-active-general .icon-box.general-icon { background-color: #0F172A; color: #FFFFFF; border-color: #0F172A; box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.2); }
+
+        button.nav-tab-btn .icon-box.meta-icon { background-color: #FFFFFF; border: 1px solid #E2E8F0; }
+        button.nav-tab-active-meta .icon-box.meta-icon { background-color: #EFF6FF; border-color: #BFDBFE; }
+
+        button.nav-tab-btn .icon-box.shopee-icon { background-color: #FFFFFF; border: 1px solid #E2E8F0; }
+        button.nav-tab-active-shopee .icon-box.shopee-icon { background-color: #FFF7ED; border-color: #FED7AA; }
+
+        /* Sub Tabs */
+        button.sub-tab-btn {
+            padding-bottom: 0.75rem;
+            font-size: 0.95rem; 
+            font-weight: 700;
+            color: #94A3B8; 
+            border-bottom-width: 2px;
+            border-bottom-style: solid;
+            border-color: transparent;
+            transition: all 0.2s ease;
+            background: transparent !important;
+        }
+        button.sub-tab-btn:hover { color: #64748B; }
+        
+        button.sub-tab-active {
+            color: #004AAD !important;
+            border-color: #004AAD !important;
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .custom-table th { letter-spacing: 0.05em; font-size: 0.75rem; white-space: nowrap; }
+        .custom-table td { white-space: normal; }
+        .custom-table tr:last-child td { border-bottom: none; }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+
+    <!-- Sticky Header -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            
+            <!-- Left Section: Back + Logo + Title -->
+            <div class="flex items-center gap-4">
+                
+                <!-- Back Button -->
+                <button onclick="window.location.href='https://report.rumahbesarkemasan.com/ads/'" class="flex items-center justify-center w-10 h-10 rounded-full bg-white border border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-700 hover:border-slate-300 transition-all shadow-sm group/back" title="Kembali ke Dashboard Utama">
+                    <svg class="w-5 h-5 transform group-hover/back:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                </button>
+
+                <div class="flex items-center gap-3 group">
+                    <img src="https://rumahbesarkemasan.com/wp-content/uploads/2025/05/Logo-RBK-2-1.png" 
+                         alt="Logo RBK" 
+                         class="logo-fix object-contain transform group-hover:scale-105 transition-transform duration-300"
+                         style="height: 40px !important; width: auto !important; max-width: 200px !important;"
+                         onerror="this.src='https://via.placeholder.com/128?text=RBK'">
+                    <div>
+                        <h1 class="text-lg font-extrabold text-slate-800 leading-tight m-0">Laporan Ads</h1>
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wide group-hover:text-blue-600 transition-colors m-0">November 2025</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Download Button -->
+            <a href="#" class="hidden md:flex items-center gap-2 px-4 py-2 bg-slate-100 text-slate-600 rounded-lg text-sm font-bold hover:bg-slate-200 transition-all no-underline">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                <span>Download PDF</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8 max-w-6xl flex-grow">
+
+        <!-- Navigation Tabs -->
+        <div class="nav-tab-container">
+            <button onclick="switchPlatform('dashboard')" id="btn-dashboard" class="nav-tab-btn nav-tab-active-general group">
+                <div class="icon-box general-icon">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                </div>
+                <span>Dashboard</span>
+            </button>
+            <button onclick="switchPlatform('meta')" id="btn-meta" class="nav-tab-btn group">
+                <div class="icon-box meta-icon overflow-hidden">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyol4xIco45UiTkckeQE6QbP16tFU_vMNXjw&s" alt="Meta Ads" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all" id="meta-logo-icon">
+                </div>
+                <span>META Ads</span>
+            </button>
+            <button onclick="switchPlatform('shopee')" id="btn-shopee" class="nav-tab-btn group">
+                <div class="icon-box shopee-icon overflow-hidden">
+                    <img src="https://e7.pngegg.com/pngimages/631/197/png-clipart-logo-shopee-indonesia-online-shopping-brand-shopee-platform-text-trademark-thumbnail.png" alt="Shopee" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all" id="shopee-logo-icon">
+                </div>
+                <span>Shopee Ads</span>
+            </button>
+        </div>
+
+        <!-- =======================
+             MODE 0: DASHBOARD SUMMARY (GABUNGAN NOV 2025)
+             ======================= -->
+        <div id="panel-dashboard" class="animate-fade-in block mt-6">
+            
+            <!-- EXECUTIVE SUMMARY HEADER -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden mb-8">
+                <div class="px-6 py-5 border-b border-gray-100 bg-slate-50/50 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <h2 class="text-xl font-extrabold text-slate-800">Executive Summary</h2>
+                        <p class="text-sm text-slate-500 mt-1">Laporan Gabungan Periode: <span class="font-bold text-slate-700">1 - 30 November 2025</span></p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="flex items-center gap-2 px-3 py-1.5 bg-blue-50 border border-blue-100 rounded-lg">
+                            <span class="w-2 h-2 rounded-full bg-blue-600"></span>
+                            <span class="text-xs font-bold text-blue-700">Meta Ads</span>
+                        </div>
+                        <div class="flex items-center gap-2 px-3 py-1.5 bg-orange-50 border border-orange-100 rounded-lg">
+                            <span class="w-2 h-2 rounded-full bg-orange-500"></span>
+                            <span class="text-xs font-bold text-orange-700">Shopee Ads</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Metrics Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-gray-100">
+                    <div class="p-6 hover:bg-gray-50 transition-colors group">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="p-2 bg-green-50 rounded-lg group-hover:bg-green-100 transition-colors"><svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+                            <span class="text-xs font-bold px-2 py-1 bg-green-100 text-green-700 rounded-full">Total Revenue</span>
+                        </div>
+                        <h3 class="text-3xl font-black text-slate-800 mb-1">Rp 15.09 Jt</h3>
+                        <p class="text-xs text-slate-400">Total Omset Gabungan</p>
+                    </div>
+                    <div class="p-6 hover:bg-gray-50 transition-colors group">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="p-2 bg-red-50 rounded-lg group-hover:bg-red-100 transition-colors"><svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg></div>
+                            <span class="text-xs font-bold px-2 py-1 bg-red-100 text-red-600 rounded-full">Ad Spend</span>
+                        </div>
+                        <h3 class="text-3xl font-black text-slate-800 mb-1">Rp 2.39 Jt</h3>
+                        <p class="text-xs text-slate-400">Total Biaya Iklan</p>
+                    </div>
+                    <div class="p-6 hover:bg-gray-50 transition-colors group">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="p-2 bg-blue-50 rounded-lg group-hover:bg-blue-100 transition-colors"><svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg></div>
+                            <span class="text-xs font-bold px-2 py-1 bg-blue-100 text-blue-700 rounded-full">ROAS</span>
+                        </div>
+                        <h3 class="text-3xl font-black text-blue-600 mb-1">6.32x</h3>
+                        <p class="text-xs text-slate-400">Return on Ad Spend (Blended)</p>
+                    </div>
+                    <div class="p-6 hover:bg-gray-50 transition-colors group">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="p-2 bg-purple-50 rounded-lg group-hover:bg-purple-100 transition-colors"><svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg></div>
+                            <span class="text-xs font-bold px-2 py-1 bg-purple-100 text-purple-700 rounded-full">Sales Volume</span>
+                        </div>
+                        <h3 class="text-3xl font-black text-slate-800 mb-1">6.570 <span class="text-lg text-slate-400 font-bold">Pcs</span></h3>
+                        <p class="text-xs text-slate-400">Estimasi Total Transaksi</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                    <h3 class="text-lg font-bold text-slate-800 mb-6">Kontribusi Omset per Channel</h3>
+                    <div class="flex items-center justify-center">
+                        <div class="chart-container" style="height: 300px; width: 300px;">
+                            <canvas id="revenueShareChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                    <h3 class="text-lg font-bold text-slate-800 mb-6">Efisiensi: Spend vs Revenue</h3>
+                    <div class="chart-container">
+                        <canvas id="efficiencyComparisonChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Breakdown Table -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden mb-8">
+                <div class="p-6 border-b border-gray-100 bg-gray-50/30">
+                    <h3 class="text-lg font-bold text-slate-800">Rincian Performa Platform</h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse custom-table">
+                        <thead class="bg-gray-50 text-gray-500 uppercase text-xs font-bold">
+                            <tr>
+                                <th class="p-4 pl-6">Platform</th>
+                                <th class="p-4 text-right">Ad Spend</th>
+                                <th class="p-4 text-right">Omset (Revenue)</th>
+                                <th class="p-4 text-right">ROAS</th>
+                                <th class="p-4 text-right">Qty Terjual</th>
+                                <th class="p-4 text-right pr-6">Deals</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm divide-y divide-gray-100 text-slate-600">
+                            <tr class="hover:bg-blue-50/30 transition-colors">
+                                <td class="p-4 pl-6 font-bold text-slate-800 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-600"></span> META Ads</td>
+                                <td class="p-4 text-right">Rp 2.000.464</td>
+                                <td class="p-4 text-right font-bold text-slate-800">Rp 12.074.558</td>
+                                <td class="p-4 text-right text-blue-600 font-bold">6.04x</td>
+                                <td class="p-4 text-right">4.300</td>
+                                <td class="p-4 text-right pr-6">16</td>
+                            </tr>
+                            <tr class="hover:bg-orange-50/30 transition-colors">
+                                <td class="p-4 pl-6 font-bold flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-orange-500"></span> Shopee Ads</td>
+                                <td class="p-4 text-right">Rp 389.371</td>
+                                <td class="p-4 text-right font-bold text-slate-800">Rp 3.017.100</td>
+                                <td class="p-4 text-right text-green-600 font-bold">7.75x</td>
+                                <td class="p-4 text-right">2.270</td>
+                                <td class="p-4 text-right pr-6">8</td>
+                            </tr>
+                            <tr class="bg-slate-50 font-bold border-t border-gray-200">
+                                <td class="p-4 pl-6 text-slate-800">TOTAL</td>
+                                <td class="p-4 text-right">Rp 2.389.835</td>
+                                <td class="p-4 text-right">Rp 15.091.658</td>
+                                <td class="p-4 text-right text-green-700">6.32x</td>
+                                <td class="p-4 text-right">6.570</td>
+                                <td class="p-4 text-right pr-6">24</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- =======================
+             MODE 1: META ADS REPORT (NOVEMBER)
+             ======================= -->
+        <div id="panel-meta" class="hidden animate-fade-in mt-6">
+            <div class="flex gap-6 mb-8 border-b border-gray-100 pb-1">
+                <button onclick="switchMetaTab('ads')" id="tab-meta-ads" class="sub-tab-btn sub-tab-active focus:outline-none">📊 Data Leads</button>
+                <button onclick="switchMetaTab('closing')" id="tab-meta-closing" class="sub-tab-btn focus:outline-none">💰 Hasil Closing & CS</button>
+            </div>
+
+            <div id="meta-content-ads" class="space-y-8">
+                <!-- Highlight Banner -->
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-blue-800 font-bold">Objective: Engagement + CTWA (ABO)</p>
+                            <p class="text-xs text-blue-600 mt-1">Periode: 8 - 29 November 2025</p>
+                        </div>
+                        <span class="bg-blue-100 text-blue-700 py-1 px-3 rounded-full text-xs font-bold">4 Ads Aktif</span>
+                    </div>
+                </div>
+
+                <!-- Summary Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition">
+                        <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Total Budget Spent</p>
+                        <p class="text-2xl font-black text-slate-800 tracking-tight">Rp 2.000.464</p>
+                        <p class="text-xs text-gray-400 mt-1">Harian: 70k - 80k</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition">
+                        <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Total Leads</p>
+                        <p class="text-3xl font-black text-meta-primary tracking-tight">456</p>
+                        <p class="text-xs font-bold text-gray-500 mt-1">Small but Mighty</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition">
+                        <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Cost Per Lead (CPL)</p>
+                        <p class="text-2xl font-black text-slate-800 tracking-tight">Rp 4.387</p>
+                        <p class="text-xs font-bold text-indigo-600 mt-1">Stabil (< Rp 5k)</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition">
+                        <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Total Omset</p>
+                        <p class="text-2xl font-black text-orange-500 tracking-tight">Rp 12.07 Jt</p>
+                        <p class="text-xs font-bold text-orange-600 mt-1">ROAS: 6.04x</p>
+                    </div>
+                </div>
+
+                <!-- UPDATED SECTION: Analisis Performa Adset (Estimated from Totals) -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden mb-8">
+                    <div class="p-6 border-b border-gray-100 bg-gray-50/30 flex justify-between items-center">
+                        <h3 class="text-lg font-bold text-slate-800">Analisis Performa Adset (Estimasi Proporsional)</h3>
+                        <span class="text-xs font-semibold text-slate-400">Source: Data November 2025</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <!-- Table Wrapper for Horizontal Scroll -->
+                        <table class="w-full text-left border-collapse custom-table min-w-[1000px]">
+                            <thead class="bg-gray-50 text-gray-500 uppercase text-xs font-bold">
+                                <tr>
+                                    <th class="p-4 pl-6 w-1/5 sticky left-0 bg-gray-50 z-10 shadow-sm">Nama Adset</th>
+                                    <th class="p-4 text-right text-blue-700">Budget Spent (Est)</th>
+                                    <th class="p-4 text-right">Impression (Est)</th>
+                                    <th class="p-4 text-right">Reach (Est)</th>
+                                    <th class="p-4 text-center">Freq</th>
+                                    <th class="p-4 text-right text-indigo-600">Link Clicks</th>
+                                    <th class="p-4 text-right text-green-600">Results (Msg)</th>
+                                    <th class="p-4 text-right text-red-500 pr-6">Drop Off / Kebocoran</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm divide-y divide-gray-100 text-slate-600 font-medium">
+                                <!-- Row 1: Anis -->
+                                <tr class="hover:bg-blue-50/30 transition-colors">
+                                    <td class="p-4 pl-6 font-bold text-slate-800 sticky left-0 bg-white z-10">Ads Anis</td>
+                                    <td class="p-4 text-right font-bold text-blue-700 bg-blue-50/50">Rp 570.300</td>
+                                    <td class="p-4 text-right text-gray-500">25.000</td>
+                                    <td class="p-4 text-right text-gray-500">15.000</td>
+                                    <td class="p-4 text-center"><span class="bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded text-xs font-bold">1.6</span></td>
+                                    <td class="p-4 text-right font-bold text-indigo-600">350</td>
+                                    <td class="p-4 text-right font-bold text-green-600">130</td>
+                                    <td class="p-4 text-right pr-6">
+                                        <div class="flex flex-col items-end">
+                                            <span class="text-red-600 font-bold bg-red-50 px-2 py-0.5 rounded">63%</span>
+                                            <span class="text-[10px] text-red-400 mt-0.5">(-220 lost)</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Row 2: Yeni -->
+                                <tr class="hover:bg-blue-50/30 transition-colors">
+                                    <td class="p-4 pl-6 font-bold text-slate-800 sticky left-0 bg-white z-10">Ads Yeni</td>
+                                    <td class="p-4 text-right font-bold text-blue-700 bg-blue-50/50">Rp 557.100</td>
+                                    <td class="p-4 text-right text-gray-500">22.000</td>
+                                    <td class="p-4 text-right text-gray-500">13.000</td>
+                                    <td class="p-4 text-center"><span class="bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded text-xs font-bold">1.7</span></td>
+                                    <td class="p-4 text-right font-bold text-indigo-600">300</td>
+                                    <td class="p-4 text-right font-bold text-green-600">127</td>
+                                    <td class="p-4 text-right pr-6">
+                                         <div class="flex flex-col items-end">
+                                            <span class="text-red-600 font-bold bg-red-50 px-2 py-0.5 rounded">57%</span>
+                                            <span class="text-[10px] text-red-400 mt-0.5">(-173 lost)</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Row 3: Nadin -->
+                                <tr class="hover:bg-blue-50/30 transition-colors">
+                                    <td class="p-4 pl-6 font-bold text-slate-800 sticky left-0 bg-white z-10">Ads Nadin</td>
+                                    <td class="p-4 text-right font-bold text-blue-700 bg-blue-50/50">Rp 535.200</td>
+                                    <td class="p-4 text-right text-gray-500">20.000</td>
+                                    <td class="p-4 text-right text-gray-500">12.000</td>
+                                    <td class="p-4 text-center"><span class="bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded text-xs font-bold">1.6</span></td>
+                                    <td class="p-4 text-right font-bold text-indigo-600">280</td>
+                                    <td class="p-4 text-right font-bold text-green-600">122</td>
+                                    <td class="p-4 text-right pr-6">
+                                         <div class="flex flex-col items-end">
+                                            <span class="text-red-600 font-bold bg-red-50 px-2 py-0.5 rounded">56%</span>
+                                            <span class="text-[10px] text-red-400 mt-0.5">(-158 lost)</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Row 4: Agustin -->
+                                <tr class="hover:bg-blue-50/30 transition-colors">
+                                    <td class="p-4 pl-6 font-bold text-slate-800 sticky left-0 bg-white z-10">Ads Agustin</td>
+                                    <td class="p-4 text-right font-bold text-blue-700 bg-blue-50/50">Rp 337.864</td>
+                                    <td class="p-4 text-right text-gray-500">15.000</td>
+                                    <td class="p-4 text-right text-gray-500">9.000</td>
+                                    <td class="p-4 text-center"><span class="bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded text-xs font-bold">1.6</span></td>
+                                    <td class="p-4 text-right font-bold text-indigo-600">200</td>
+                                    <td class="p-4 text-right font-bold text-green-600">77</td>
+                                    <td class="p-4 text-right pr-6">
+                                         <div class="flex flex-col items-end">
+                                            <span class="text-red-600 font-bold bg-red-50 px-2 py-0.5 rounded">61%</span>
+                                            <span class="text-[10px] text-red-400 mt-0.5">(-123 lost)</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Charts Area -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                        <h3 class="text-lg font-bold text-slate-800 mb-6">Distribusi Leads per CS</h3>
+                        <div class="chart-container">
+                            <canvas id="csLeadsChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col">
+                        <h3 class="text-lg font-bold text-slate-800 mb-6">Funnel Konversi</h3>
+                        <div class="chart-container flex-grow" style="height: 250px;">
+                            <canvas id="metaFunnelChart"></canvas>
+                        </div>
+                        <div class="mt-4 text-xs text-center text-gray-500">
+                            Conversion Rate Total: 3.5%
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- META CONTENT: CLOSING DATA & CS PERFORMANCE (MOVED HERE) -->
+            <div id="meta-content-closing" class="hidden space-y-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-gradient-to-br from-indigo-500 to-purple-600 p-6 rounded-2xl text-white shadow-lg">
+                        <p class="text-xs font-bold opacity-80 uppercase tracking-wider">Total Transaksi</p>
+                        <p class="text-4xl font-black mt-2">16 Deals</p>
+                        <div class="mt-4"><span class="bg-white/20 px-2 py-1 rounded text-xs font-bold">CR Tinggi di Anis & Nadin</span></div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition">
+                        <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Total Item Terjual</p>
+                        <p class="text-3xl font-black text-slate-800 mt-2">4.300</p>
+                        <p class="text-sm font-bold text-slate-400 mt-1">Pcs Kemasan</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition">
+                        <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Revenue</p>
+                        <p class="text-3xl font-black text-green-600 mt-2">Rp 12.07 Jt</p>
+                        <p class="text-sm font-bold text-slate-400 mt-1">Dari 3 CS</p>
+                    </div>
+                </div>
+
+                <!-- MOVED: DETAILED CS TABLE -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+                    <div class="p-6 border-b border-gray-100 bg-gray-50/30">
+                        <h3 class="text-lg font-bold text-slate-800">Rincian Performa CS</h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse custom-table">
+                            <thead class="bg-gray-50 text-gray-500 uppercase text-xs font-bold">
+                                <tr>
+                                    <th class="p-4 pl-6">Nama CS</th>
+                                    <th class="p-4 text-right">Leads Masuk</th>
+                                    <th class="p-4 text-right">Closing (Deal)</th>
+                                    <th class="p-4 text-right">Qty Terjual</th>
+                                    <th class="p-4 text-right">Omset (IDR)</th>
+                                    <th class="p-4 text-center pr-6">Conv. Rate</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm divide-y divide-gray-100 text-slate-600 font-medium">
+                                <tr class="hover:bg-blue-50/30 transition-colors">
+                                    <td class="p-4 pl-6 font-bold text-slate-800">Anis</td>
+                                    <td class="p-4 text-right font-bold text-blue-600">130</td>
+                                    <td class="p-4 text-right font-bold text-green-600">7</td>
+                                    <td class="p-4 text-right">3.400 pcs</td>
+                                    <td class="p-4 text-right font-bold text-slate-700">Rp 8.858.249</td>
+                                    <td class="p-4 text-center pr-6">5.38%</td>
+                                </tr>
+                                <tr class="hover:bg-blue-50/30 transition-colors">
+                                    <td class="p-4 pl-6 font-bold text-slate-800">Nadin</td>
+                                    <td class="p-4 text-right font-bold text-slate-600">122</td>
+                                    <td class="p-4 text-right font-bold text-green-600">8</td>
+                                    <td class="p-4 text-right">800 pcs</td>
+                                    <td class="p-4 text-right font-bold text-slate-700">Rp 2.656.067</td>
+                                    <td class="p-4 text-center pr-6 bg-green-50 rounded text-green-700 font-bold">6.56%</td>
+                                </tr>
+                                <tr class="hover:bg-blue-50/30 transition-colors">
+                                    <td class="p-4 pl-6 font-bold text-slate-800">Yeni</td>
+                                    <td class="p-4 text-right font-bold text-slate-600">127</td>
+                                    <td class="p-4 text-right font-bold text-green-600">1</td>
+                                    <td class="p-4 text-right">100 pcs</td>
+                                    <td class="p-4 text-right font-bold text-slate-700">Rp 560.242</td>
+                                    <td class="p-4 text-center pr-6">0.79%</td>
+                                </tr>
+                                <tr class="hover:bg-blue-50/30 transition-colors text-red-500">
+                                    <td class="p-4 pl-6 font-bold">Agustin</td>
+                                    <td class="p-4 text-right font-bold">77</td>
+                                    <td class="p-4 text-right font-bold">0</td>
+                                    <td class="p-4 text-right">0</td>
+                                    <td class="p-4 text-right font-bold">-</td>
+                                    <td class="p-4 text-center pr-6">0%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                    <h3 class="text-lg font-bold text-slate-800 mb-6">🏆 Leaderboard Penjualan (Pcs)</h3>
+                    <div class="space-y-4">
+                        <div class="relative pt-1">
+                            <div class="flex mb-2 items-center justify-between"><div><span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-600 bg-blue-200">Juara 1: Anis</span></div><div class="text-right"><span class="text-xs font-semibold inline-block text-blue-600">3.400 Pcs</span></div></div>
+                            <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-100"><div style="width:100%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"></div></div>
+                        </div>
+                        <div class="relative pt-1">
+                            <div class="flex mb-2 items-center justify-between"><div><span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-purple-600 bg-purple-200">Juara 2: Nadin</span></div><div class="text-right"><span class="text-xs font-semibold inline-block text-purple-600">800 Pcs</span></div></div>
+                            <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-purple-100"><div style="width:25%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-purple-500"></div></div>
+                        </div>
+                        <div class="relative pt-1">
+                            <div class="flex mb-2 items-center justify-between"><div><span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-teal-600 bg-teal-200">Juara 3: Yeni</span></div><div class="text-right"><span class="text-xs font-semibold inline-block text-teal-600">100 Pcs</span></div></div>
+                            <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-teal-100"><div style="width:5%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- =======================
+             MODE 2: SHOPEE ADS REPORT (NOVEMBER)
+             ======================= -->
+        <div id="panel-shopee" class="hidden animate-fade-in mt-6">
+            <div class="bg-gradient-to-r from-orange-500 to-red-600 rounded-2xl p-8 mb-8 text-white shadow-xl shadow-orange-200 relative overflow-hidden">
+                <div class="relative z-10">
+                    <h2 class="text-3xl font-extrabold mb-2 m-0 text-white">Shopee Performance (Top Ad)</h2>
+                    <p class="text-orange-100 font-semibold text-lg m-0">Produk: Standing Pouch Cetak Full Print</p>
+                    <div class="mt-6 flex gap-3">
+                        <span class="px-3 py-1 bg-white/20 rounded-lg text-sm font-bold backdrop-blur border border-white/10">ROAS: 7.75x</span>
+                        <span class="px-3 py-1 bg-white/20 rounded-lg text-sm font-bold backdrop-blur border border-white/10">ACOS: 12.91%</span>
+                    </div>
+                </div>
+                <svg class="absolute right-0 bottom-0 opacity-10 w-64 h-64" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zm0 9l2.5-1.25L12 8.5l-2.5 1.25L12 11zm0 2.5l-5-2.5-5 2.5L12 22l10-8.5-5-2.5-5 2.5z"/></svg>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition">
+                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Biaya Iklan</p>
+                    <p class="text-2xl font-black text-slate-800">Rp 389.371</p>
+                    <p class="text-xs text-gray-500 mt-2">Sangat Efisien</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition">
+                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Omzet Penjualan</p>
+                    <p class="text-2xl font-black text-shopee-primary">Rp 3.017.100</p>
+                    <p class="text-xs text-green-600 font-bold mt-2">Dari 1 Produk Utama</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition">
+                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Produk Terjual</p>
+                    <p class="text-2xl font-black text-slate-800">700 Pcs</p>
+                    <p class="text-xs text-gray-500 mt-2">Estimasi</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition">
+                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">ROAS</p>
+                    <p class="text-2xl font-black text-blue-600">7.75x</p>
+                    <p class="text-xs text-gray-500 mt-2">Profit Baik</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden mb-8">
+                <div class="p-6 border-b border-gray-100 bg-gray-50/30">
+                    <h3 class="text-lg font-bold text-slate-800">Rincian Semua Produk Iklan (November)</h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse custom-table">
+                        <thead class="bg-gray-50 text-gray-500 uppercase text-xs font-bold">
+                            <tr>
+                                <th class="p-4 pl-6 w-1/3">Nama Iklan</th>
+                                <th class="p-4 text-right">Dilihat</th>
+                                <th class="p-4 text-right">Klik</th>
+                                <th class="p-4 text-right">Omzet</th>
+                                <th class="p-4 text-right">ROAS</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm divide-y divide-gray-100 text-slate-600">
+                            <!-- Row 1: Kemasan Standing Pouch Cetak Full Print Desain Ukuran Kecil dan Besar 100 pcs Non Zipper -->
+                            <tr class="hover:bg-orange-50/30 transition-colors">
+                                <td class="p-4 pl-6 font-bold text-slate-800">Kemasan Standing Pouch Cetak Full Print (Kecil/Besar Non Zipper)</td>
+                                <td class="p-4 text-right">12.573</td>
+                                <td class="p-4 text-right">603</td>
+                                <td class="p-4 text-right font-bold text-shopee-primary">Rp 1.571.500</td>
+                                <td class="p-4 text-right font-bold text-green-600">6.58x</td>
+                            </tr>
+                            <!-- Row 2: Erbeka Tambahan Zipper Ziplock Kemasan Standing Pouch -->
+                            <tr class="hover:bg-orange-50/30 transition-colors">
+                                <td class="p-4 pl-6 font-bold text-slate-800">Erbeka Tambahan Zipper Ziplock Kemasan Standing Pouch</td>
+                                <td class="p-4 text-right">6.617</td>
+                                <td class="p-4 text-right">324</td>
+                                <td class="p-4 text-right font-bold text-shopee-primary">Rp 1.445.600</td>
+                                <td class="p-4 text-right font-bold text-green-600">9.81x</td>
+                            </tr>
+                            <!-- Row 3: ERBEKA Kemasan Standing Pouch Cetak Full Print Desain Colour Ukuran Kecil 10x15 cm -->
+                             <tr class="hover:bg-orange-50/30 transition-colors">
+                                <td class="p-4 pl-6 font-bold text-slate-800">ERBEKA Kemasan Standing Pouch Cetak Full Print (10x15 cm)</td>
+                                <td class="p-4 text-right">3.316</td>
+                                <td class="p-4 text-right">164</td>
+                                <td class="p-4 text-right font-bold text-shopee-primary">Rp 0</td>
+                                <td class="p-4 text-right text-gray-400">0.00x</td>
+                            </tr>
+                            <!-- Row 4: ERBEKA Kemasan Standing Pouch Cetak Full Print Desain Colour Ukuran Sedang 14x23 cm Minimal 100 pcs -->
+                            <tr class="hover:bg-orange-50/30 transition-colors">
+                                <td class="p-4 pl-6 font-bold text-slate-800">ERBEKA Kemasan Standing Pouch Cetak Full Print (14x23 cm)</td>
+                                <td class="p-4 text-right">1.503</td>
+                                <td class="p-4 text-right">54</td>
+                                <td class="p-4 text-right font-bold text-shopee-primary">Rp 0</td>
+                                <td class="p-4 text-right text-gray-400">0.00x</td>
+                            </tr>
+                            <!-- Row 5: Automatically select products Ad -->
+                            <tr class="hover:bg-orange-50/30 transition-colors">
+                                <td class="p-4 pl-6 font-bold text-slate-800">Automatically select products Ad (Iklan Toko)</td>
+                                <td class="p-4 text-right">4.629</td>
+                                <td class="p-4 text-right">129</td>
+                                <td class="p-4 text-right font-bold text-shopee-primary">Rp 0</td>
+                                <td class="p-4 text-right text-gray-400">0.00x</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                    <h3 class="text-lg font-bold text-slate-800 mb-6">Efisiensi Biaya (Produk Utama)</h3>
+                    <div class="chart-container" style="height: 250px;">
+                        <canvas id="shopeeRoiChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4">Funnel Iklan Produk</h3>
+                    <div class="chart-container" style="height: 250px;">
+                        <canvas id="shopeeFunnelChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Monthly Navigation Buttons -->
+        <div class="flex flex-col md:flex-row justify-between gap-4 mt-8 mb-4">
+            <!-- Previous Button (Oktober 2025) -->
+            <a href="https://report.rumahbesarkemasan.com/ads/oktober-2025/" class="group flex items-center gap-3 bg-white border border-slate-200 rounded-2xl px-5 py-4 hover:border-blue-500 hover:shadow-md transition-all w-full md:w-auto text-decoration-none shadow-sm">
+                <div class="flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 text-slate-500 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                </div>
+                <div class="text-left">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0 group-hover:text-blue-500 transition-colors">Previous</p>
+                    <p class="text-sm font-bold text-slate-800 m-0">Oktober 2025</p>
+                </div>
+            </a>
+
+            <!-- Next Button (Desember 2025) -->
+            <a href="https://report.rumahbesarkemasan.com/ads/desember-2025/" class="group flex items-center justify-end gap-3 bg-white border border-slate-200 rounded-2xl px-5 py-4 hover:border-blue-500 hover:shadow-md transition-all w-full md:w-auto text-decoration-none shadow-sm text-right">
+                <div class="text-right">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0 group-hover:text-blue-500 transition-colors">Next</p>
+                    <p class="text-sm font-bold text-slate-800 m-0">Desember 2025</p>
+                </div>
+                <div class="flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 text-slate-500 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </div>
+            </a>
+        </div>
+
+    </main>
+
+    <footer class="mt-12 py-8 text-center text-gray-400 text-sm bg-slate-50 border-t border-gray-200">
+        <p>© 2025 Rumah Besar Kemasan. All Right Reserved</p>
+    </footer>
+
+    <script>
+        // --- Navigation Logic ---
+        function switchPlatform(platform) {
+            const dashboardBtn = document.getElementById('btn-dashboard');
+            const metaBtn = document.getElementById('btn-meta');
+            const shopeeBtn = document.getElementById('btn-shopee');
+            
+            const dashboardPanel = document.getElementById('panel-dashboard');
+            const metaPanel = document.getElementById('panel-meta');
+            const shopeePanel = document.getElementById('panel-shopee');
+            
+            const shopeeLogoIcon = document.getElementById('shopee-logo-icon');
+            const metaLogoIcon = document.getElementById('meta-logo-icon');
+
+            // Reset All Buttons
+            dashboardBtn.classList.remove('nav-tab-active-general');
+            metaBtn.classList.remove('nav-tab-active-meta');
+            shopeeBtn.classList.remove('nav-tab-active-shopee');
+            
+            // Reset Logos
+            shopeeLogoIcon.classList.remove('grayscale');
+            metaLogoIcon.classList.remove('grayscale');
+
+            // Hide All Panels
+            dashboardPanel.classList.add('hidden');
+            metaPanel.classList.add('hidden');
+            shopeePanel.classList.add('hidden');
+
+            // Activate Specific Platform
+            if (platform === 'dashboard') {
+                dashboardBtn.classList.add('nav-tab-active-general');
+                dashboardPanel.classList.remove('hidden');
+                shopeeLogoIcon.classList.add('grayscale');
+                metaLogoIcon.classList.add('grayscale');
+            } else if (platform === 'meta') {
+                metaBtn.classList.add('nav-tab-active-meta');
+                metaPanel.classList.remove('hidden');
+                shopeeLogoIcon.classList.add('grayscale');
+            } else {
+                shopeeBtn.classList.add('nav-tab-active-shopee');
+                shopeePanel.classList.remove('hidden');
+                metaLogoIcon.classList.add('grayscale');
+            }
+        }
+
+        function switchMetaTab(tabId) {
+            const adsTab = document.getElementById('tab-meta-ads');
+            const closingTab = document.getElementById('tab-meta-closing');
+            const adsContent = document.getElementById('meta-content-ads');
+            const closingContent = document.getElementById('meta-content-closing');
+
+            if (tabId === 'ads') {
+                adsContent.classList.remove('hidden');
+                closingContent.classList.add('hidden');
+                adsTab.classList.add('sub-tab-active');
+                closingTab.classList.remove('sub-tab-active');
+            } else {
+                closingContent.classList.remove('hidden');
+                adsContent.classList.add('hidden');
+                closingTab.classList.add('sub-tab-active');
+                adsTab.classList.remove('sub-tab-active');
+            }
+        }
+
+        // --- Chart Configurations ---
+        (function() {
+            Chart.defaults.font.family = "'Nunito', sans-serif";
+            const META_LIGHT = '#4D8DFF';
+            const SHOPEE_COLOR = '#EE4D2D';
+
+            // --- DASHBOARD CHARTS ---
+            
+            // 1. Revenue Share Pie Chart
+            const revenueShareCtx = document.getElementById('revenueShareChart');
+            if (revenueShareCtx) {
+                new Chart(revenueShareCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['META Ads', 'Shopee Ads'],
+                        datasets: [{
+                            data: [12074558, 3017100],
+                            backgroundColor: [META_LIGHT, SHOPEE_COLOR],
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'bottom' },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.label || '';
+                                        if (label) { label += ': '; }
+                                        label += new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 3 }).format(context.raw);
+                                        return label;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // 2. Efficiency Comparison Bar Chart
+            const efficiencyCtx = document.getElementById('efficiencyComparisonChart');
+            if (efficiencyCtx) {
+                new Chart(efficiencyCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['META Ads', 'Shopee Ads'],
+                        datasets: [
+                            { label: 'Spend', data: [2000464, 389371], backgroundColor: '#CBD5E1', borderRadius: 4 },
+                            { label: 'Revenue', data: [12074558, 3017100], backgroundColor: [META_LIGHT, SHOPEE_COLOR], borderRadius: 4 }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: { type: 'logarithmic', display: true } // Log scale due to large difference in spend
+                        }
+                    }
+                });
+            }
+
+            // --- META CHARTS ---
+
+            // 1. META CS Leads
+            const csLeadsCtx = document.getElementById('csLeadsChart');
+            if (csLeadsCtx) {
+                new Chart(csLeadsCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Anis', 'Yeni', 'Nadin', 'Agustin'],
+                        datasets: [
+                            { label: 'Leads Masuk', data: [130, 127, 122, 77], backgroundColor: META_LIGHT, borderRadius: 6, order: 2 },
+                            { label: 'Closing', data: [7, 1, 8, 0], backgroundColor: '#10B981', borderRadius: 6, order: 1, type: 'line', borderColor: '#10B981', borderWidth: 2, pointBackgroundColor: '#fff', pointRadius: 5 }
+                        ]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+                });
+            }
+
+            // 2. META Funnel
+            const metaFunnelCtx = document.getElementById('metaFunnelChart');
+            if (metaFunnelCtx) {
+                new Chart(metaFunnelCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Leads', 'Closing'],
+                        datasets: [{ label: 'Konversi', data: [456, 16], backgroundColor: [META_LIGHT, '#10B981'], borderRadius: 4 }]
+                    },
+                    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { grid: { display: false } } } }
+                });
+            }
+
+            // --- SHOPEE CHARTS ---
+
+            // 3. Shopee ROI
+            const shopeeRoiCtx = document.getElementById('shopeeRoiChart');
+            if (shopeeRoiCtx) {
+                new Chart(shopeeRoiCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Biaya Iklan', 'Omzet'],
+                        datasets: [{ label: 'Rupiah', data: [389371, 3017100], backgroundColor: ['#CBD5E1', SHOPEE_COLOR], borderRadius: 8, barThickness: 50 }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { display: false }, x: { grid: { display: false } } } }
+                });
+            }
+
+            // 4. Shopee Funnel
+            const shopeeFunnelCtx = document.getElementById('shopeeFunnelChart');
+            if (shopeeFunnelCtx) {
+                new Chart(shopeeFunnelCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Dilihat', 'Klik', 'Konversi'],
+                        datasets: [{
+                            label: 'Funnel', data: [28639, 1274, 6],
+                            backgroundColor: 'rgba(238, 77, 45, 0.1)', borderColor: SHOPEE_COLOR, borderWidth: 3, fill: true, tension: 0.3
+                        }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, scales: { y: { type: 'logarithmic', display: false }, x: { grid: { display: false } } } }
+                });
+            }
+        })();
+    </script>
+</body>
+</html>
